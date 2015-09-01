@@ -13,6 +13,10 @@
 // 这两个代码是在拖入textField之后，打开Assistant Editor，并把textField分别拖到这个地方自动生成的
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextField *passField;
+@property (weak, nonatomic) IBOutlet UILabel *sliderLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *leftSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *rightSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *doSomethingButton;
 
 @end
 
@@ -22,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.sliderLabel.text=@"50";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +43,31 @@
 - (IBAction)backgroundTap:(id)sender {
     [self.nameField resignFirstResponder];
     [self.passField resignFirstResponder];
+}
+- (IBAction)sliderChanged:(UISlider *)sender {
+    int progress = lroundf(sender.value);
+    self.sliderLabel.text=[NSString stringWithFormat:@"%d",progress];
+}
+- (IBAction)switchChanged:(UISwitch *)sender {
+    BOOL setting = sender.isOn;
+    [self.leftSwitch setOn:setting animated:YES];
+    [self.rightSwitch setOn: setting animated:YES];
+}
+- (IBAction)toggleControls:(UISegmentedControl *)sender {
+    // 0 == switches index
+    if (sender.selectedSegmentIndex == 0){
+        self.leftSwitch.hidden=NO;
+        self.rightSwitch.hidden=NO;
+        self.doSomethingButton.hidden = YES;
+    }
+    else {
+        self.leftSwitch.hidden = YES;
+        self.rightSwitch.hidden = YES;
+        self.doSomethingButton.hidden = NO;
+    }
+}
+
+- (IBAction)buttonPressed:(id)sender {
 }
 
 @end
