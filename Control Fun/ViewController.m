@@ -67,7 +67,39 @@
     }
 }
 
+// 下面两端代码都是对应操作表单和警告试图的
+
 - (IBAction)buttonPressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:@"您确定要以当前等级进入记分卡的世界？"
+                                  delegate:self
+                                  cancelButtonTitle:@"让朕再想想"
+                                  destructiveButtonTitle:@"走起"
+                                  otherButtonTitles:nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet
+didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex != [actionSheet cancelButtonIndex]){
+        NSString *msg = nil;
+        
+        if ([self.nameField.text length]>0){
+            msg = [NSString stringWithFormat:
+                   @"You can %@ everything is ok",
+                   self.nameField.text];
+        } else { msg = @"还没想好这里写什么内容，所以就先写这些内容吧";
+        
+    }
+        UIAlertView *alert=[[UIAlertView alloc]
+                            initWithTitle:@"准备开战了伙计！"
+                            message:msg
+                            delegate:self
+                            cancelButtonTitle:@"赶紧的"
+                            otherButtonTitles:nil];
+        [alert show];
+}
 }
 
 @end
